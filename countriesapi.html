@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rest Countries API</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <form action="" class="p-3 mx-5 mt-5 bg-light border border-2" style="text-align: center;">
+                <input type="text" id="cname" placeholder="Enter country name" class="form-control my-4">
+                <button class="form-control btn btn-outline-primary btn-sm my-3" type="button"
+                    onclick="search()">Search</button>
+            </form>
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 px-5 py-3 mx-5 mt-1" style="text-align: center;" id="result"></div>
+        <div class="col-4"></div>
+    </div>
+</body>
+<script>
+    function search() {
+        country = cname.value;
+        // console.log(`https://restcountries.com/v3.1/name/${country}?fullText=true`);
+        fetch(`https://restcountries.com/v3.1/name/${country}?fullText=true`)
+            .then(res => res.json())
+            .then(data => displayData(data))
+            .catch(error => { alert(error) })
+    }
+
+    function displayData(data) {
+        capital = data[0].capital;
+        region = data[0].region;
+        population = data[0].population;
+        timezone = data[0].timezones;
+
+        let htmldata = `<div class="card border-danger mb-3" style="max-width: 18rem;">
+  <div class="card-header">COUNTRY DETAILS</div>
+  <div class="card-body text-danger">
+    <h5 class="card-title">${country}</h5>
+    <p class="card-text">Capital : ${capital}</p>
+    <p class="card-text">Region : ${region}</p>
+    <p class="card-text">Population : ${population}</p>
+    <p class="card-text">Timezone : ${timezone}</p>
+
+  </div>
+</div>`
+
+        result.innerHTML = htmldata;
+    }
+</script>
+
+</html>
